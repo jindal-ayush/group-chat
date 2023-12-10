@@ -2,6 +2,9 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 
+//@description     Get or Search all users
+//@route           GET /api/user?search=
+//@access          Public
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
@@ -49,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       pic: user.pic,
       token: generateToken(user._id),
-    }); 
+    });
   } else {
     res.status(400);
     throw new Error("User not found");
@@ -75,9 +78,8 @@ const authUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-  throw new Error("Invalid Email or Password");
+    throw new Error("Invalid Email or Password");
   }
 });
 
-
-module.exports = {registerUser, authUser , allUsers};
+module.exports = { allUsers, registerUser, authUser };

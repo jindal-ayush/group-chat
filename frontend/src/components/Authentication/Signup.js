@@ -68,9 +68,10 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      // localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
-      history.push("/chats");
+      resetSignup();
+      history.push("/");
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -83,6 +84,13 @@ const Signup = () => {
       setPicLoading(false);
     }
   };
+
+  const resetSignup = () => {
+    setName('');
+    setEmail('');
+    setConfirmpassword('');
+    setPassword('');
+  }
 
   const postDetails = (pics) => {
     setPicLoading(true);
@@ -101,14 +109,14 @@ const Signup = () => {
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "dbtvzriio");
-      fetch("https://api.cloudinary.com/v1_1/dbtvzriio", {
+      data.append("cloud_name", "piyushproj");
+      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
         method: "post",
         body: data,
       })
         .then((res) => res.json())
         .then((data) => {
-          setPic(data.url.toString());  
+          setPic(data.url.toString());
           console.log(data.url.toString());
           setPicLoading(false);
         })
@@ -136,6 +144,7 @@ const Signup = () => {
         <Input
           placeholder="Enter Your Name"
           onChange={(e) => setName(e.target.value)}
+          value={name}
         />
       </FormControl>
       <FormControl id="email" isRequired>
@@ -144,6 +153,7 @@ const Signup = () => {
           type="email"
           placeholder="Enter Your Email Address"
           onChange={(e) => setEmail(e.target.value)}
+          value={email}
         />
       </FormControl>
       <FormControl id="password" isRequired>
@@ -153,6 +163,7 @@ const Signup = () => {
             type={show ? "text" : "password"}
             placeholder="Enter Password"
             onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -168,6 +179,7 @@ const Signup = () => {
             type={show ? "text" : "password"}
             placeholder="Confirm password"
             onChange={(e) => setConfirmpassword(e.target.value)}
+            value={confirmpassword}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
